@@ -1,12 +1,18 @@
 ﻿using DungeonSpel.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace DungeonSpel
 {
     internal class Game
     {
-        private Map map;
-        private bool playing;
+        private Map          map;
+        private bool         playing;
+        private List<string> log        = new List<string>();
+
+
+        private ConsoleColor previousColor;
+        private ConsoleKey key;
 
         public Game()
         {
@@ -30,17 +36,47 @@ namespace DungeonSpel
             //play
             Play();
 
-
+            cleanUp();
 
         }//- of play
 
+        private void cleanUp()
+        {
+            Console.ForegroundColor = previousColor;
+            Console.CursorVisible = true;              //tages bort i Initialize [ Draw()]
+        }
+
         private void Initialize()
         {
-            Console.WriteLine("Initializing game");
-             map = new Map(width: 10, height: 10);
-            map.Hero = new Hero();
+            Console.WriteLine("Initializing game");     // Utskriften hinner ej ses.
+            previousColor = Console.ForegroundColor;  //från map, testförflyttning.
+            Console.CursorVisible = false;              //från Draw()
+            //Console.ReadLine();                       // Hinner annars ej se ovanstående utskrift.
+            map = new Map(width: 20, height: 20, log:log);  //- skapa kartan o ange storlek
 
-            //Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+
+
+
+
+            map.Hero  = new Hero();
+
+            var troll    = Monster.Troll();           //- Factory-metod, instansierar ett objekt av Monsterklass:en
+            Cell cell    = map.Cell(x: 10, y: 5);
+            cell.Monster = troll;
+
+            
+            var goblin             = Monster.Goblin();
+            map.Cell(8, 5).Monster = goblin;
+            map.Cell(4, 3).Monster = Monster.Goblin();
+            map.Cell(2, 3).Item    = Item.Coin();
+
+
+
+
+
+
+            Console.OutputEncoding = System.Text.Encoding.UTF8; //- för att kunna skriva ut andra symboler än de vanliga på tangentbordet.
 
         }
 
@@ -53,18 +89,29 @@ namespace DungeonSpel
             while (playing)
             {
                 PlayerAction();
+                UpdateMap();
                 Draw();
+                if (map.Hero.Health <= 0) playing = false;
             }
-        }  //- of class
+            Console.WriteLine("Game over");
 
 
+        }  //- of   Play()
 
+        private void UpdateMap()
+        {
+            map.ClearDeadMonsters();
+        }
 
-
+        private int ClearDeadMonsters()
+        {
+            throw new NotImplementedException();
+        }
 
         private void PlayerAction()
         {
-            var key = Console.ReadKey(intercept:true).Key;
+            // var key = Console.ReadKey(intercept: true).Key;
+              key = Console.ReadKey(intercept: true).Key;    //- Key returnerar typen: ConsoleKey
             switch (key)
             {
                 case ConsoleKey.UpArrow:
@@ -89,20 +136,28 @@ namespace DungeonSpel
 
         private void Move(int x, int y)
         {
-            var targetX = map.Hero.X + x; //- förväntad nästa position
-            var targetY = map.Hero.Y + y;
+            map.MoveHero(x, y);
 
-            if (map.InValidCell(x:targetX, y:targetY) ) return; //- om inte giltig avsluta metod
+            //var targetX = map.Hero.X + x; //- förväntad nästa position
+            //var targetY = map.Hero.Y + y;
 
-            map.Hero.X += x;
-            map.Hero.Y += y;
+            //if (map.OutOfBounds(x:targetX, y:targetY) ) return; //- om inte giltig avsluta metod
+
+            //map.Hero.X += x;
+            //map.Hero.Y += y;
         }
 
         private void Draw()
         {
             Console.Clear();
-            Console.CursorVisible = false;
+            //Console.CursorVisible = false;
             map.Draw();
+            Console.WriteLine($"Health: {map.Hero.Health} (X:{map.Hero.X} Y:{map.Hero.Y})");
+            foreach(var message in log)
+            {
+                Console.WriteLine(message);
+            }
+            while (log.Count > 6) log.RemoveAt(0);
 
         } //- of class
 

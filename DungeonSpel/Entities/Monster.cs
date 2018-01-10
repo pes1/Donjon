@@ -8,23 +8,31 @@ namespace DungeonSpel.Entities
 {
     class Monster: Creature   //, IDrawable
     {
-        private Monster(string  symbol, ConsoleColor color) : 
-                  base(symbol: symbol, color:       color)
+        private Monster(string name, string  symbol, ConsoleColor color) : 
+                   base(  name:name, symbol: symbol, color:       color)
         {
             //this.Color = ConsoleColor.DarkRed;
             //this.Symbol = "C";
         }
-        static Monster Troll()
+        public static Monster Troll()
         {
-            return new Monster("T", ConsoleColor.Green);
+            return new Monster(name: "Monster", symbol: "T", color: ConsoleColor.DarkBlue)
+            { Health = 3,
+              Damage = 1
+            };
         }
 
-        static Monster Goblin()
+        public static Monster Goblin()
         {
-            return new Monster("G", ConsoleColor.Green);
+            return new Monster(name:"Goblin", symbol:"G", color:ConsoleColor.Green)
+            {
+                Health = 2,
+                Damage = 1
+            };
         }
 
-
+     
+        
 
     }
 }

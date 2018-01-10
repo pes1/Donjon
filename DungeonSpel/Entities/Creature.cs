@@ -2,18 +2,21 @@
 
 namespace DungeonSpel.Entities
 {
-    internal class Creature: IDrawable
+    internal abstract class Creature: IDrawable
     {
 
 
-        public ConsoleColor Color { get; set; }
-        public string      Symbol { get; set; }
+        public ConsoleColor Color  { get; set; }
+        public string       Symbol { get; set; }
 
-        public int Health { get; set; }
-        public int Damage { get; set; }
+        public int          Health { get; set; }
+        public int          Damage { get; set; }
+        public string       Name   { get; set; }
 
-        public Creature(string symbol, ConsoleColor color)
+        protected  Creature(string name, string symbol, ConsoleColor color) // kan vara public
+                                                                            // konsekvens av att klassen är internal
         {
+            Name   = name;
             Symbol = symbol;
             Color  = color; //test
         }
