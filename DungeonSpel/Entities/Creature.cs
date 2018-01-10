@@ -15,7 +15,7 @@ namespace DungeonSpel.Entities
         public Creature(string symbol, ConsoleColor color)
         {
             Symbol = symbol;
-            Color  = color;
+            Color  = color; //test
         }
     }
 }
