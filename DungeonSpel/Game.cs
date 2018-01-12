@@ -69,7 +69,10 @@ namespace DungeonSpel
             var goblin             = Monster.Goblin();
             map.Cell(8, 5).Monster = goblin;
             map.Cell(4, 3).Monster = Monster.Goblin();
-            map.Cell(2, 3).Item    = Item.Coin();
+            map.Cell(2, 3).Item = Item.Coin();
+            map.Cell(3, 3).Item = Item.Coin();
+            map.Cell(4, 8).Item = Item.Coin();
+            map.Cell(5, 3).Item = Item.Coin();
 
 
 
@@ -91,7 +94,8 @@ namespace DungeonSpel
                 PlayerAction();
                 UpdateMap();
                 Draw();
-                if (map.Hero.Health <= 0) playing = false;
+                if (map.Hero.Health      <= 0) playing = false;
+                if (map.Monsters.Count() <= 0) playing = false;
             }
             Console.WriteLine("Game over");
 
@@ -110,6 +114,7 @@ namespace DungeonSpel
 
         private void PlayerAction()
         {
+            log.Clear();
             // var key = Console.ReadKey(intercept: true).Key;
               key = Console.ReadKey(intercept: true).Key;    //- Key returnerar typen: ConsoleKey
             switch (key)
@@ -126,6 +131,12 @@ namespace DungeonSpel
                 case ConsoleKey.RightArrow:
                     Move(x: 1, y: 0);
                     break;
+                case ConsoleKey.P:
+                    Pickup();
+                    break;
+                case ConsoleKey.I:
+                    Inventory();
+                    break;
                 case ConsoleKey.Q:
                     playing = false;
                     break;
@@ -133,6 +144,27 @@ namespace DungeonSpel
 
             }
         }//´- of PlayerAction()
+
+        private void Inventory()
+        {
+
+            log.Add($"Inventory: "); 
+            foreach(var item in map.Hero.BackPack)
+            {
+                log.Add($" ({Item}")
+            }
+        }
+
+        private void Pickup()
+        {
+            map.Pickup();  //-hjälten plockar upp det som råkar finnas i en ruta
+        }
+
+
+
+
+
+
 
         private void Move(int x, int y)
         {
@@ -157,7 +189,7 @@ namespace DungeonSpel
             {
                 Console.WriteLine(message);
             }
-            while (log.Count > 6) log.RemoveAt(0);
+            while (log.Count > 6) log.RemoveAt(0); 
 
         } //- of class
 

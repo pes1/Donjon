@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,10 @@ namespace DungeonSpel.Entities
         //public string       Symbol { get; set; } = "@";
         //public string       Symbol { get; set; } = "☻";
 
+
+        public LimitedList<Item> BackPack { get; set; }
+
+
         //public Hero() : base( name:"Roger Hjälte",symbol: "@", color: ConsoleColor.White) //- simplare tecken använt
         public Hero()   : base( name:"Roger Hjälte",
                                 symbol: "☻", 
@@ -28,6 +33,7 @@ namespace DungeonSpel.Entities
 
             Health = 5;
             Damage = 1;
+            BackPack = new LimitedList<Item>(3);
             
         }
 

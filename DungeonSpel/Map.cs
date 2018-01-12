@@ -126,6 +126,18 @@ namespace DungeonSpel
             //}
         }
 
+        internal void Pickup()
+        {
+            var cell = cells[Hero.X, Hero.Y];
+            if(cell.Item != null)
+            {
+                var pickuped = Hero.BackPack.Add(cell.Item);
+                if(pickuped
+                    )
+                log.Add($"The {}")
+            }
+        }
+
         internal Cell Cell(int x, int y)
         {
             return cells[x, y];
