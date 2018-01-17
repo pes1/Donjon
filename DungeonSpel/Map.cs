@@ -132,9 +132,9 @@ namespace DungeonSpel
             if(cell.Item != null)
             {
                 var pickuped = Hero.BackPack.Add(cell.Item);
-                if(pickuped
+                if (pickuped
                     )
-                log.Add($"The {}")
+                    log.Add($"The {cell.Item} picked up.");
             }
         }
 

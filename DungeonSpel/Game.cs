@@ -1,6 +1,7 @@
 ﻿using DungeonSpel.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DungeonSpel
 {
@@ -151,7 +152,7 @@ namespace DungeonSpel
             log.Add($"Inventory: "); 
             foreach(var item in map.Hero.BackPack)
             {
-                log.Add($" ({Item}")
+                log.Add($" ({item.Name}");
             }
         }
 

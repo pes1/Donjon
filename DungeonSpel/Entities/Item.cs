@@ -3,7 +3,7 @@ namespace DungeonSpel.Entities
 {
     public class Item: IDrawable
     {
-        private string Name;
+        public string Name;
 
         public ConsoleColor Color  { get; }
         public string       Symbol { get; }

@@ -8,7 +8,7 @@ namespace DungeonSpel.Entities
 {
     class Monster: Creature   //, IDrawable
     {
-        private Monster(string name, string  symbol, ConsoleColor color) : 
+        protected  Monster(string name, string  symbol, ConsoleColor color) : 
                    base(  name:name, symbol: symbol, color:       color)
         {
             //this.Color = ConsoleColor.DarkRed;
@@ -35,4 +35,14 @@ namespace DungeonSpel.Entities
         
 
     }
+
+    class Troll : Monster
+    {
+        public Troll() : base("Troll", "T", ConsoleColor.Green)
+        {
+            Health = 3;
+            Damage = 1;
+        }
+    }
+
 }
